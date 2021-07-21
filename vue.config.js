@@ -1,0 +1,13 @@
+module.exports={
+    devServer:{
+        proxy:{
+            "/api":{
+                target:"http://wthrcdn.etouch.cn/weather_mini",
+                changeOrigin:true,
+                pathRewrite:{
+                    "^/api":""
+                }
+            }
+        }
+    }
+}
