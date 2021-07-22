@@ -64,11 +64,21 @@ main {
     </div>
     <main>
       <el-table style="width: 100%" :data="tableData">
+
         <!-- 展开 -->
         <el-table-column type="expand">
           <template slot-scope="">
+            <el-form>
+               <el-form-item label="昨天:" class="dateLab">
+                 {{yesterdayData.date}}
+              </el-form-item>
+              
+            </el-form>
             <el-form label-position="left" inline class="demo-table-expand" v-for="(item,index) in tableDataAll" :key="index">
               
+               <!-- <el-form-item label="昨天:" class="dateLab">
+                
+              </el-form-item> -->
               
               <el-form-item label="日期:" class="dateLab">
                 <span class="date">{{ item.date }}</span>
@@ -122,7 +132,8 @@ export default {
       wendu: "",
       ganmao: "",
       tableData: [],
-      tableDataAll:[]
+      tableDataAll:[],
+      yesterdayData:{}
     };
   },
   methods: {
@@ -143,7 +154,8 @@ export default {
         // console.log(this.tableData, "tableData");
         this.tableDataAll = res.data.data.forecast;
         console.log(this.tableDataAll,"this.tableDataAll");
-        this.yesterdayData = res.data.data.yesterdayData
+        this.yesterdayData = res.data.data.yesterday;
+        console.log(this.yesterdayData,"this.yesterdayData");
       });
     },
   },
