@@ -1,99 +1,113 @@
 <style lang="less" scoped>
-.homeBox{
+.homeBox {
   width: 500px;
-  height: 600px;
-  border: 1px solid black;
-
+  // height: 600px;
+  border: 1px solid lightblue;
 }
 .home {
- 
+  position: relative;
   margin: auto;
   // text-align: center;
   display: flex;
   justify-content: center;
-  input {
+  .el-input {
     width: 200px;
-    height: 30px;
-    border: 1px solid black;
-    text-indent: 6px;
+    // height: 30px;
+    // border: 1px solid black;
+    // text-indent: 6px;
     // font-size: 16px;
   }
   .button {
+    position: absolute;
+    top: 2px;
+    right: 151px;
     width: 40px;
-    height: 32px;
-    border: 1px solid gray;
     background: lightblue;
-    border-left: none;
     text-align: center;
-    line-height: 32px;
+    line-height: 38px;
     > i {
       color: white;
       font-size: 20px;
     }
   }
 }
-main{
-  .el-table-column{
+main {
+  .el-table-column {
     text-align: center;
+  }
+  .el-form{
+    margin: 20px 0 20px 0;
+    border-bottom: .5px dotted lightblue;
+    .date{
+      font-size: 18px;
+      font-weight: 400;
+    }
+    .dateLab /deep/ .el-form-item__label{
+      font-size: 18px;
+    }
   }
 }
 </style>
 <template>
   <div class="homeBox">
     <div class="home">
-      <input
+      <!-- <input
         type="text"
         placeholder="请输入要查询的城市"
         v-model="city"
         @keyup.enter="search"
-      />
+      /> -->
+      <el-input type="text" placeholder="请输入要查询的城市" v-model.trim="city" clearable @keyup.enter.native="search" > </el-input>
       <div class="button" @click="search">
         <i class="el-icon-search"></i>
       </div>
     </div>
     <main>
+      <el-table style="width: 100%" :data="tableData">
+        <!-- 展开 -->
+        <el-table-column type="expand">
+          <template slot-scope="">
+            <el-form label-position="left" inline class="demo-table-expand" v-for="(item,index) in tableDataAll" :key="index">
+              
+              
+              <el-form-item label="日期:" class="dateLab">
+                <span class="date">{{ item.date }}</span>
+              </el-form-item>
+              <br />
+              <el-form-item label="高温:">
+                <span>{{ item.high }}</span>
+              </el-form-item>
+              <br />
+              <el-form-item label="低温:">
+                <span>{{ item.low }}</span>
+              </el-form-item>
+              <br />
+              <el-form-item label="风向:">
+                <span>{{ item.fengxiang }}</span>
+              </el-form-item>
+              <br />
+              <el-form-item label="风力:">
+                <span>{{ item.fengli }}</span>
+              </el-form-item>
+              <br />
+              <el-form-item label="类型:">
+                <span>{{ item.type }}</span>
+              </el-form-item>
+            </el-form>
+          </template>
+        </el-table-column>
 
-      <el-table
-    
-    style="width: 100%">
-    <el-table-column type="expand">
-      <template>
-        <el-form label-position="left" inline class="demo-table-expand">
-          <el-form-item label="date">
-            <span>{{ list.date }}</span>
-          </el-form-item>
-          <!-- <el-form-item label="风级">
-            <span>{{  }}</span>
-          </el-form-item>
-          <el-form-item label="风向">
-            <span>{{  }}</span>
-          </el-form-item>
-          <el-form-item label="高温">
-            <span>{{  }}</span>
-          </el-form-item>
-          <el-form-item label="低温">
-            <span>{{  }}</span>
-          </el-form-item>
-          <el-form-item label="天气类型">
-            <span>{{  }}</span>
-          </el-form-item>
-           -->
-        </el-form>
-      </template>
-    </el-table-column>
-    <el-table-column
-      label="城市"
-      :prop="citys">
-    </el-table-column>
-    <el-table-column
-      label="温度"
-      :prop="wendu">
-    </el-table-column>
-    <el-table-column
-      label="感冒"
-      :prop="ganmao">
-    </el-table-column>
-  </el-table>
+        <el-table-column label="城市" width="180">
+          <span>{{ citys }}</span>
+        </el-table-column>
+        <el-table-column label="温度℃" width="180">
+          <span>{{ wendu }}</span>
+        </el-table-column>
+        <el-table-column label="备注" width="180">
+          <span>{{ ganmao }}</span>
+        </el-table-column>
+       
+      </el-table>
     </main>
   </div>
 </template>
@@ -104,45 +118,11 @@ export default {
   data() {
     return {
       city: "",
-      citys:"",
-      wendu:"",
-      ganmao:"",
-      list:[],
-
-       tableData: [{
-          // id: '12987122',
-          name: '好滋好味鸡蛋仔',
-          category: '江浙小吃、小吃零食',
-          desc: '荷兰优质淡奶，奶香浓而不腻',
-          address: '上海市普陀区真北路',
-          shop: '王小虎夫妻店',
-          shopId: '10333'
-        }, {
-          // id: '12987123',
-          name: '好滋好味鸡蛋仔',
-          category: '江浙小吃、小吃零食',
-          desc: '荷兰优质淡奶，奶香浓而不腻',
-          address: '上海市普陀区真北路',
-          shop: '王小虎夫妻店',
-          shopId: '10333'
-        }, {
-          // id: '12987125',
-          name: '好滋好味鸡蛋仔',
-          category: '江浙小吃、小吃零食',
-          desc: '荷兰优质淡奶，奶香浓而不腻',
-          address: '上海市普陀区真北路',
-          shop: '王小虎夫妻店',
-          shopId: '10333'
-        }, {
-          // id: '12987126',
-          name: '好滋好味鸡蛋仔',
-          category: '江浙小吃、小吃零食',
-          desc: '荷兰优质淡奶，奶香浓而不腻',
-          address: '上海市普陀区真北路',
-          shop: '王小虎夫妻店',
-          shopId: '10333'
-        }]
-      
+      citys: "",
+      wendu: "",
+      ganmao: "",
+      tableData: [],
+      tableDataAll:[]
     };
   },
   methods: {
@@ -156,11 +136,14 @@ export default {
       }).then((res) => {
         console.log(res, "res");
         this.citys = res.data.data.city;
-        console.log(this.citys);
+        // console.log(this.citys);
         this.wendu = res.data.data.wendu;
         this.ganmao = res.data.data.ganmao;
-        this.list = res.data.data.forecast[0];
-        console.log(this.list,"list");
+        this.tableData = res.data.data.forecast.splice(0,1);
+        // console.log(this.tableData, "tableData");
+        this.tableDataAll = res.data.data.forecast;
+        console.log(this.tableDataAll,"this.tableDataAll");
+        this.yesterdayData = res.data.data.yesterdayData
       });
     },
   },
