@@ -45,7 +45,32 @@ main {
     .dateLab /deep/ .el-form-item__label{
       font-size: 18px;
     }
+    .el-form-item{
+      .yesterdayDate{
+        font-size: 12px;
+        color: blue;
+        cursor: pointer;
+        .el-icon-arrow-right{
+          cursor: pointer;
+        }
+      }
+      li{
+        list-style-type: none;
+
+      }
+     
+    }
   }
+}
+
+
+//active
+.aa {
+  transition: all 0.2s;
+}
+.go {
+  transform: rotate(90deg);
+  transition: all 0.2s;
 }
 </style>
 <template>
@@ -69,8 +94,15 @@ main {
         <el-table-column type="expand">
           <template slot-scope="">
             <el-form>
-               <el-form-item label="昨天:" class="dateLab">
-                 {{yesterdayData.date}}
+               <el-form-item label="" class="dateLab">
+                 <div class="yesterdayDate" @click="clickLook(citys)"> 点击查看昨日天气</div>
+                <!-- <ul class="yesterdayContent" v-show="isShow">
+                  <li>风力:{{yesterdayData.fl}}</li>
+                  <li>风向:{{yesterdayData.fx}}</li>
+                  <li>高温:{{yesterdayData.high}}</li>
+                  <li>低温:{{yesterdayData.low}}</li>
+                  <li>类型:{{yesterdayData.type}}</li>
+                </ul> -->
               </el-form-item>
               
             </el-form>
@@ -119,14 +151,20 @@ main {
        
       </el-table>
     </main>
+    <!-- <About/> -->
   </div>
 </template>
 
 <script>
+import About from './About.vue';
 export default {
-  components: {},
+  components: {
+    About
+  },
   data() {
     return {
+      rotate:false,
+      isShow:false,
       city: "",
       citys: "",
       wendu: "",
@@ -137,6 +175,14 @@ export default {
     };
   },
   methods: {
+    clickLook(citys){
+      this.$router.push(`/about/${citys}`)
+    },
+    // handle(){
+    //   // console.log("11");
+    //   this.rotate = !this.rotate;
+    //   this.isShow = !this.isShow
+    // },
     search() {
       this.axios({
         method: "get",
@@ -153,9 +199,9 @@ export default {
         this.tableData = res.data.data.forecast.splice(0,1);
         // console.log(this.tableData, "tableData");
         this.tableDataAll = res.data.data.forecast;
-        console.log(this.tableDataAll,"this.tableDataAll");
+        // console.log(this.tableDataAll,"this.tableDataAll");
         this.yesterdayData = res.data.data.yesterday;
-        console.log(this.yesterdayData,"this.yesterdayData");
+        // console.log(this.yesterdayData,"this.yesterdayData");
       });
     },
   },
