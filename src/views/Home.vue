@@ -152,17 +152,35 @@ main {
       </el-table>
     </main>
     <!-- <About/> -->
+    <div class="copyBox">
+      <!-- <button class="btn" @click="btn">copy_target</button> -->
+      <span>{{ code }}</span>
+       <i
+       class="el-icon-document"
+       title="点击复制"
+       @click="copyActiveCode($event,code )"/>
+
+       
+      
+    </div>
+    <Tab></Tab>
   </div>
 </template>
 
 <script>
 import About from './About.vue';
+import Tab from '../components/tab/Tab'
+// import Clipboard 首字母必须为大写   （引入到要使用的组件上即可）
+import Clipboard from 'clipboard';
+
 export default {
   components: {
-    About
+    About,
+    Tab
   },
   data() {
     return {
+      code:111,
       rotate:false,
       isShow:false,
       city: "",
@@ -175,6 +193,27 @@ export default {
     };
   },
   methods: {
+    copyActiveCode(e, text) {
+      const clipboard = new Clipboard(e.target, { text: () => text })
+      clipboard.on('success', e => {
+        this.$message({ type: 'success', message: '复制成功' })
+        // 释放内存
+        clipboard.off('error')
+        clipboard.off('success')
+        clipboard.destroy()
+      })
+      clipboard.on('error', e => {
+        // 不支持复制
+        this.$message({ type: 'waning', message: '该浏览器不支持自动复制' })
+        // 释放内存
+        clipboard.off('error')
+        clipboard.off('success')
+        clipboard.destroy()
+      })
+      clipboard.onClick(e)
+    },
+
+
     clickLook(citys){
       this.$router.push(`/about/${citys}`)
     },
