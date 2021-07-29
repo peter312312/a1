@@ -1,4 +1,8 @@
 <style lang="less" scoped>
+*{
+  text-decoration: none;
+  
+}
 .homeBox {
   width: 500px;
   // height: 600px;
@@ -155,28 +159,32 @@ main {
     <div class="copyBox">
       <!-- <button class="btn" @click="btn">copy_target</button> -->
       <span>{{ code }}</span>
-       <i
+       <i 
        class="el-icon-document"
        title="点击复制"
        @click="copyActiveCode($event,code )"/>
-
-       
-      
     </div>
-    <Tab></Tab>
+    <tab></tab>
+    <router-link to="/event">
+    跳转到Event页面
+    </router-link>
+    
   </div>
 </template>
 
 <script>
 import About from './About.vue';
-import Tab from '../components/tab/Tab'
+import tab from '../components/tab/Tab';
+import Event from '../views/Event'
 // import Clipboard 首字母必须为大写   （引入到要使用的组件上即可）
 import Clipboard from 'clipboard';
+
 
 export default {
   components: {
     About,
-    Tab
+    tab,
+  
   },
   data() {
     return {
