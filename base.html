@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <img src="./无标题.png" alt="">
+    </div>
+    <script>
+        let str = "base";
+        let newStr = window.btoa(str);
+        console.log("经base64转化后的",newStr);
+        
+        let img = document.querySelector("img");
+        let newImg = window.btoa(img);
+        console.log(newImg,"baseImg");
+        let newImgAfter = window.atob(newImg);
+        console.log(newImgAfter);
+    </script>
+</body>
+</html>
